@@ -7,7 +7,7 @@ import { render } from 'react-dom';
  * @constructor Dot
  */
 const ComponentFN = (props) =>
-  <span key={props.index}>{props.hi}</span>;
+  <span>{props.hi}</span>;
 
 /**
  * @description Stateful Component
@@ -25,10 +25,10 @@ class Main extends React.Component {
   render() {
     //create an array of 500 elements and fill them with zeros
     //Map this array with a function that calls each component in it's way
-    const hi = new Array(100).fill(0).map((key, index) => {
+    const hi = new Array(500).fill(0).map((key, index) => {
       if(this.props.kind == 'functionalComponentAsFunction') {
         //call the functional component as a function
-        return ComponentFN({hi: 'hi', index});
+        return ComponentFN({hi: 'hi'});
       } else if(this.props.kind == 'functionalComponentAsReactElement') {
         //call the functional component as a React Element
         return <ComponentFN key={index} hi="hi"/>;
@@ -48,12 +48,12 @@ let classicalComponentTotalTime, functionalComponentAsElement, functionallyCalle
  * @description Run is called as many times as the benchmark defines. Internally it calls 500 times every component for each render.
  * It calculates in total how much time it took to render for the amount of times it was asked to run.
  */
-const run = (index) => {
+const run = () => {
   ['classicalComponent', 'functionalComponentAsReactElement', 'functionalComponentAsFunction'].forEach(kind => {
     const prevTime = performance.now();
   
     render(
-      (<Main her={index} kind={kind}/>), document.getElementById(kind)
+      (<Main kind={kind}/>), document.getElementById(kind)
     );
       
     const timeToCompletion = Math.round(performance.now() - prevTime);
